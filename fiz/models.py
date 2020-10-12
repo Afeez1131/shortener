@@ -7,6 +7,16 @@ class fizzURLManager(models.Manager):
         qs = qs_main.filter(active=True)
         return qs
 
+    # def refresh_codes(self):
+    #     qs = fizzURL.objects.filter(id__gte=1)
+    #     new_code = 0
+    #     for q in qs:
+    #         q.shortcode = create_shortcode(q)
+    #         print(q.shortcode)
+    #         q.save()
+    #         new_code += 1
+    #     return "New codes made {i}".format(i=new_code)
+
 
 class fizzURL(models.Model):
     url = models.CharField(max_length=100)
@@ -22,5 +32,4 @@ class fizzURL(models.Model):
     def save(self, *args, **kwargs):
         if self.shortcode == None or self.shortcode == "":
             self.shortcode = create_shortcode(self)
-        print(self.shortcode)
         super(fizzURL, self).save(*args, **kwargs)
