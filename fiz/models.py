@@ -4,7 +4,7 @@ from .utils import code_generator, create_shortcode
 class fizzURLManager(models.Manager):
     def all(self, *args, **kwargs):
         qs_main = super(fizzURLManager, self).all(*args, **kwargs)
-        qs = qs_main.filter(active=True)
+        qs = qs_main.filter(active=False)
         return qs
 
 
