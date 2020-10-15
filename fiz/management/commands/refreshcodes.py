@@ -3,7 +3,7 @@ from fiz.models import fizzURL
 from fiz.utils import create_shortcode
 
 class Command(BaseCommand):
-    help = 'Closes the specified poll for voting'
+    help = 'This command refreshes all the shortcodes of URLs in the database'
 
 
 
