@@ -15,13 +15,22 @@ class HomeView(View):
 
     def post(self, request):
         form = SubmitURLForm(request.POST)
-        # print(form.clean())
-        return render(request, 'fiz/home.html', {'form': form, 'title': 'Fiz.co'})
+        if form.is_valid():
+            new_url = form.cleaned_data['url']
+            obj, created = fizzURL.objects.get_or_create(url=new_url)
+            context = {
+                'obj': obj,
+                'created': created,
+            }
+            if created:
+                template = 'fiz/created.html'
+            
+            else:
+                template= 'fiz/already-exist.html'
+
+        return render(request, template, context)
 
 class FizCBV(View):
-    def get(self, request, shortcode=None):
-        url = request.POST
-        if not url.startswith('http://') and not url.startswith('https://'):
-            url = 'https://' + url 
-        shortcode = code_generator(url) 
-        return HttpResponseRedirect(url)
+    def get(self, request, shortcode):
+        obj = get_object_or_404(fizzURL, shortcode=shortcode)
+        return HttpResponseRedirect(obj.url)
